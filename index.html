@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de E-mail de Exclusão</title>
+    <!-- *** INÍCIO DA ALTERAÇÃO: Ícone da aba referenciando sua imagem *** -->
+    <link rel="icon" type="image/jpeg" href="412.jpg">
+    <!-- *** FIM DA ALTERAÇÃO *** -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -78,11 +81,11 @@
             font-size: 1.1rem;
             display: flex;
             align-items: center;
-            gap: 12px; /* Aumentei o espaçamento */
+            gap: 12px;
         }
 
         .icon {
-            width: 24px; /* Aumentei o tamanho do ícone */
+            width: 24px;
             height: 24px;
             flex-shrink: 0;
             color: var(--green-primary);
@@ -490,7 +493,7 @@
                     }
                 } catch (err) {
                     console.error('Não foi possível copiar o texto', err);
-                    alert('Não foi possível copiar o texto. Por favor, tente manualmente.');
+                    alert('Não foi possível copiar o texto. Por favor, tente manually.');
                 }
 
                 document.body.removeChild(textArea);
