@@ -12,6 +12,8 @@
             --green-primary: #00995D;
             --green-dark: #007A4A;
             --green-light: #E6F5EF;
+            --accent-color: #17a2b8; /* Azul-petróleo para destaque */
+            --accent-dark: #138496;
             --background-color: #F7FDFB;
             --text-dark: #2E4039;
             --text-light: #5A7067;
@@ -26,9 +28,9 @@
             background-color: var(--background-color);
             color: var(--text-dark);
             display: flex;
-            flex-direction: column; /* Changed for footer */
+            flex-direction: column;
             justify-content: center;
-            align-items: center; /* Changed for footer */
+            align-items: center;
             min-height: 100vh;
             padding: 20px;
         }
@@ -44,14 +46,14 @@
             display: flex;
             flex-direction: column;
             gap: 35px;
-            margin-bottom: 20px; /* Space for footer */
+            margin-bottom: 20px;
         }
 
         h1 {
             color: var(--green-primary);
-            padding-bottom: 5px; /* Reduced padding */
+            padding-bottom: 5px;
             margin-bottom: 0;
-            font-size: 2.5rem; /* Increased font size */
+            font-size: 2.5rem;
             font-weight: 700;
             text-align: center;
             border: none;
@@ -60,7 +62,7 @@
         .subtitle {
             text-align: center;
             color: var(--text-light);
-            margin-top: -10px; /* Pulls it closer to the title */
+            margin-top: -10px;
             font-size: 1rem;
         }
 
@@ -74,15 +76,16 @@
             font-weight: 600;
             color: var(--green-dark);
             font-size: 1.1rem;
-            display: flex; /* Added for icon alignment */
-            align-items: center; /* Added for icon alignment */
-            gap: 10px; /* Added for spacing between icon and text */
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Aumentei o espaçamento */
         }
 
         .icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0; /* Prevents icon from shrinking */
+            width: 24px; /* Aumentei o tamanho do ícone */
+            height: 24px;
+            flex-shrink: 0;
+            color: var(--green-primary);
         }
 
         textarea, input[type="text"], input[type="email"] {
@@ -99,8 +102,8 @@
         }
 
         textarea:focus, input:focus {
-            border-color: var(--green-primary);
-            box-shadow: 0 0 0 4px var(--shadow-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(23, 162, 184, 0.15);
             outline: none;
         }
         
@@ -125,36 +128,33 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0, 153, 93, 0.2);
         }
 
         button:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0, 153, 93, 0.25);
+            filter: brightness(1.1);
         }
 
         button:active {
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 153, 93, 0.2);
+            filter: brightness(0.95);
         }
 
         #generateButton {
-            background: linear-gradient(45deg, var(--green-dark), var(--green-primary));
+            background: linear-gradient(45deg, var(--accent-dark), var(--accent-color));
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
         }
 
         .copy-button {
             background-color: var(--green-dark);
             padding: 8px 16px;
             font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0, 122, 74, 0.2);
         }
 
         #clearButton {
             background-color: #798C84;
             box-shadow: 0 4px 12px rgba(121, 140, 132, 0.2);
-        }
-        #clearButton:hover {
-            background-color: #687972;
-            box-shadow: 0 8px 16px rgba(121, 140, 132, 0.25);
         }
         
         .radio-group {
@@ -236,7 +236,7 @@
 
         <div class="input-group">
             <label>
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,96a32,32,0,1,0-32-32A32,32,0,0,0,128,96Zm0,16a48,48,0,1,0-48-48A48,48,0,0,0,128,112Zm88,104H160a56,56,0,0,0-112,0H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm-80-8a40,40,0,0,1-64,0Z"></path></svg>
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M234.38,100.15,142,23.51a14,14,0,0,0-20.18,0L29.62,100.15A14,14,0,0,0,22,110.49V208a14,14,0,0,0,14,14H220a14,14,0,0,0,14-14V110.49A14,14,0,0,0,234.38,100.15ZM144,208V160a16,16,0,0,0-32,0v48H44V113.19l84-75.1,84,75.1V208Z"></path></svg>
                 1. Tipo de Exclusão
             </label>
             <div class="radio-group">
@@ -249,7 +249,7 @@
 
         <div class="input-group">
             <label for="dadosBrutos">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A56,56,0,0,0,128,120,56,56,0,0,0,22.4,148.8a8,8,0,1,1-12.8-9.6,72,72,0,0,1,140.8,0,8,8,0,0,1-1.6,11.2ZM128,112a48,48,0,1,0-48-48A48,48,0,0,0,128,112Zm0-80a32,32,0,1,1-32,32A32,32,0,0,1,128,32Z"></path></svg>
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,88V44.69L195.31,80H168A8,8,0,0,1,160,88ZM200,216H56V40h88V88a16,16,0,0,0,16,16h40V216Z"></path></svg>
                 2. Dados dos Beneficiários
             </label>
             <textarea id="dadosBrutos" placeholder="Cole aqui os dados copiados do sistema."></textarea>
@@ -265,7 +265,7 @@
 
         <div class="input-group">
             <label>
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24a104,104,0,1,0,104,104A104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm0-128a12,12,0,0,0-12,12v40a12,12,0,0,0,24,0V100A12,12,0,0,0,128,88Zm-4,68a16,16,0,1,1,16,16A16,16,0,0,1,124,156Z"></path></svg>
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM98.43,128,40,157.15V98.85ZM112,128l56,32H88Zm14.43-1.57L184,96.85v58.3ZM104,128,42.43,98.43,96,72h64l53.57,26.43L152,128Z"></path></svg>
                 4. Comprovante de Cancelamento
             </label>
             <div class="radio-group">
@@ -365,10 +365,10 @@
             }
 
             function parseBeneficiaries(rawText) {
-                const newline = '\r\n';
-                const paragraph = newline + ' ' + newline;
+                const newline = '\r\n'; 
+                const paragraph = newline + ' ' + newline; 
 
-                const lines = rawText.split(/\r\n|\r|\n/);
+                const lines = rawText.split(/\r\n|\r|\n/); 
                 let formattedBeneficiaries = [];
                 for (const line of lines) {
                     const trimmedLine = line.trim();
@@ -463,15 +463,12 @@
                 copyBodyButton.classList.remove('hidden');
             }
 
-            // *** INÍCIO DA ALTERAÇÃO ***
             function copyToClipboard(textToCopy, button) {
                 if (!textToCopy) return;
 
-                // Fallback para o método execCommand
                 const textArea = document.createElement("textarea");
                 textArea.value = textToCopy;
                 
-                // Evita rolar a página para o final
                 textArea.style.top = "0";
                 textArea.style.left = "0";
                 textArea.style.position = "fixed";
@@ -488,16 +485,16 @@
                         button.style.backgroundColor = '#005C3A';
                         setTimeout(() => {
                             button.textContent = originalText;
-                            button.style.backgroundColor = ''; // Reverte para o estilo original da classe
+                            button.style.backgroundColor = '';
                         }, 2000);
                     }
                 } catch (err) {
                     console.error('Não foi possível copiar o texto', err);
+                    alert('Não foi possível copiar o texto. Por favor, tente manualmente.');
                 }
 
                 document.body.removeChild(textArea);
             }
-            // *** FIM DA ALTERAÇÃO ***
 
             function handleClear() {
                 tipoPJRadio.checked = false;
@@ -524,11 +521,9 @@
             respSimRadio.addEventListener('change', handleComprovanteChange);
             respNaoRadio.addEventListener('change', handleComprovanteChange);
             
-            // *** INÍCIO DA ALTERAÇÃO ***
             copyRecipientsButton.addEventListener('click', () => copyToClipboard(recipientsOutput.value, copyRecipientsButton));
             copySubjectButton.addEventListener('click', () => copyToClipboard(subjectOutput.value, copySubjectButton));
             copyBodyButton.addEventListener('click', () => copyToClipboard(outputEmailTextarea.value, copyBodyButton));
-            // *** FIM DA ALTERAÇÃO ***
         });
     </script>
 </body>
