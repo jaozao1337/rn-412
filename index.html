@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de E-mail de Exclusão</title>
-    <!-- *** INÍCIO DA ALTERAÇÃO: Ícone da aba referenciando sua imagem *** -->
     <link rel="icon" type="image/png" href="412.png">
-    <!-- *** FIM DA ALTERAÇÃO *** -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -367,30 +365,56 @@
                 return phone; 
             }
 
+            // *** INÍCIO DA ALTERAÇÃO ***
             function parseBeneficiaries(rawText) {
                 const newline = '\r\n'; 
                 const paragraph = newline + ' ' + newline; 
 
                 const lines = rawText.split(/\r\n|\r|\n/); 
                 let formattedBeneficiaries = [];
+                let summaryList = []; // Array para o resumo
+
                 for (const line of lines) {
                     const trimmedLine = line.trim();
                     if (trimmedLine === '' || trimmedLine.toLowerCase().includes('beneficiário') || trimmedLine.toLowerCase().includes('inclusão') || trimmedLine.includes('-----------')) {
                         continue;
                     }
-                    const cleanedLine = trimmedLine.replace(/\s+/g, ' ');
-                    const parts = cleanedLine.split(' ');
-                    if (parts.length < 5) continue;
-                    const grauDependencia = parts[parts.length - 1];
-                    const dataExclusao = parts[parts.length - 2];
-                    const dataInclusao = parts[parts.length - 3];
-                    const codigo = parts[0];
-                    const nome = parts.slice(2, parts.length - 3).join(' ');
+
+                    const dateRegex = /\d{2}\/\d{2}\/\d{4}/g;
+                    const dates = trimmedLine.match(dateRegex);
+
+                    if (!dates || dates.length < 2) {
+                        continue;
+                    }
+
+                    const dataInclusao = dates[0];
+                    const dataExclusao = dates[1];
+
+                    const indexExclusao = trimmedLine.lastIndexOf(dataExclusao);
+                    const grauDependencia = trimmedLine.substring(indexExclusao + dataExclusao.length).trim();
                     
-                    formattedBeneficiaries.push(`Beneficiário Código: ${codigo}${newline}Nome: ${nome}${newline}Inclusão: ${dataInclusao}${newline}Exclusão: ${dataExclusao}${newline}Grau Dependência: ${grauDependencia}`);
+                    const indexInclusao = trimmedLine.indexOf(dataInclusao);
+                    const prefix = trimmedLine.substring(0, indexInclusao).trim();
+                    
+                    const prefixParts = prefix.split(/\s+/);
+                    const codigo = prefixParts[0];
+                    const nome = prefixParts.slice(2).join(' ');
+
+                    if (!codigo || !nome || !grauDependencia) {
+                        continue;
+                    }
+                    
+                    formattedBeneficiaries.push(`Beneficiário Código: ${codigo} ${nome}${newline}Inclusão: ${dataInclusao}${newline}Exclusão: ${dataExclusao}${newline}Grau Dependência: ${grauDependencia}`);
+                    summaryList.push(`${codigo} ${nome}`); // Adiciona ao resumo
                 }
-                return formattedBeneficiaries.join(paragraph);
+
+                // Retorna um objeto com ambos os textos
+                return {
+                    details: formattedBeneficiaries.join(paragraph),
+                    summary: summaryList.join(newline)
+                };
             }
+            // *** FIM DA ALTERAÇÃO ***
 
             function handleComprovanteChange() {
                 if (respSimRadio.checked) {
@@ -405,6 +429,7 @@
             function handleGenerateEmail() {
                 const newline = '\r\n';
                 const paragraph = newline + ' ' + newline;
+                const separator = '==================================='; // Separador para o resumo
 
                 // Validação dos campos
                 if (!tipoPJRadio.checked && !tipoPFRadio.checked) {
@@ -433,9 +458,10 @@
                 recipientsOutput.value = recipients;
                 subjectOutput.value = subject;
 
+                // *** INÍCIO DA ALTERAÇÃO ***
                 // Gerar corpo do e-mail
-                const formattedBeneficiariesText = parseBeneficiaries(dadosBrutosInput.value);
-                if (!formattedBeneficiariesText) {
+                const beneficiaryData = parseBeneficiaries(dadosBrutosInput.value);
+                if (!beneficiaryData || !beneficiaryData.details) {
                     alert('Não foi possível formatar os dados. Verifique o texto colado.');
                     return;
                 }
@@ -459,7 +485,16 @@
                     comprovanteInfo = `Cliente aceitou receber o comprovante de cancelamento por e-mail: Não${newline}Endereço:${newline}${formattedAddress}${paragraph}Telefone: ${formattedPhone}`;
                 }
 
-                const finalEmail = `${getGreeting()},${paragraph}Exclusão feita no período: ${periodoExclusaoInput.value}${paragraph}${formattedBeneficiariesText}${paragraph}${comprovanteInfo}${paragraph}Atenciosamente,`;
+                const summarySection = `${separator}${newline}${beneficiaryData.summary}${newline}${separator}`;
+
+                const finalEmail = `${getGreeting()},${paragraph}` +
+                                 `Exclusão feita no período: ${periodoExclusaoInput.value}${paragraph}` +
+                                 `${beneficiaryData.details}${paragraph}` +
+                                 `${summarySection}${paragraph}` +
+                                 `${comprovanteInfo}${paragraph}` +
+                                 `Atenciosamente,`;
+                // *** FIM DA ALTERAÇÃO ***
+                
                 outputEmailTextarea.value = finalEmail;
 
                 emailMetaContainer.style.display = 'flex';
@@ -493,7 +528,7 @@
                     }
                 } catch (err) {
                     console.error('Não foi possível copiar o texto', err);
-                    alert('Não foi possível copiar o texto. Por favor, tente manually.');
+                    alert('Não foi possível copiar o texto. Por favor, tente manualmente.');
                 }
 
                 document.body.removeChild(textArea);
